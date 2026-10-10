@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Icons</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <script>
+        function createIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Book icon
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(size * 0.25, size * 0.25, size * 0.5, size * 0.5, size * 0.05);
+            ctx.fill();
+            
+            // Book pages
+            ctx.fillStyle = '#e0e7ff';
+            ctx.fillRect(size * 0.3, size * 0.3, size * 0.15, size * 0.4);
+            ctx.fillRect(size * 0.55, size * 0.3, size * 0.15, size * 0.4);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = `icon-${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        createIcon(document.getElementById('canvas192'), 192);
+        createIcon(document.getElementById('canvas512'), 512);
+    </script>
+</body>
+</html>

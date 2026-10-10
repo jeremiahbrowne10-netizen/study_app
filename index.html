@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyMaster - Learn & Practice</title>
+    <meta name="description" content="A comprehensive learning app with flashcards, quizzes, and exercises">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">StudyMaster</div>
+            <button class="nav-toggle" id="navToggle">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" data-section="home" class="active">Home</a></li>
+                <li><a href="#" data-section="flashcards">Flashcards</a></li>
+                <li><a href="#" data-section="quizzes">Quizzes</a></li>
+                <li><a href="#" data-section="exercises">Exercises</a></li>
+                <li><a href="#" data-section="create">Create Content</a></li>
+                <li><a href="#" data-section="progress">Progress</a></li>
+            </ul>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Welcome to StudyMaster</h1>
+                <p>Your all-in-one learning companion</p>
+                <div class="feature-cards">
+                    <div class="feature-card" onclick="navigateTo('flashcards')">
+                        <div class="feature-icon">📚</div>
+                        <h3>Flashcards</h3>
+                        <p>Memorize terms with interactive cards</p>
+                    </div>
+                    <div class="feature-card" onclick="navigateTo('quizzes')">
+                        <div class="feature-icon">📝</div>
+                        <h3>Quizzes</h3>
+                        <p>Test your knowledge with multiple choice</p>
+                    </div>
+                    <div class="feature-card" onclick="navigateTo('exercises')">
+                        <div class="feature-icon">✏️</div>
+                        <h3>Exercises</h3>
+                        <p>Practice with interactive problems</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="section">
+            <div class="container">
+                <h2>Flashcards</h2>
+                <div class="flashcard-deck-selector">
+                    <select id="flashcardDeckSelect">
+                        <option value="">Select a deck...</option>
+                    </select>
+                </div>
+                <div id="flashcardContainer" class="flashcard-container">
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="flashcard-content" id="flashcardFront">
+                                    <p>Select a deck to start studying</p>
+                                </div>
+                                <p class="flashcard-hint">Tap to flip</p>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="flashcard-content" id="flashcardBack"></div>
+                                <p class="flashcard-hint">Tap to flip back</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <button id="prevCard">Previous</button>
+                    <span id="cardCounter">0 / 0</span>
+                    <button id="nextCard">Next</button>
+                </div>
+                <div class="flashcard-mark">
+                    <button id="markKnown">I Know This</button>
+                    <button id="markUnknown">Need Practice</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quizzes Section -->
+        <section id="quizzes" class="section">
+            <div class="container">
+                <h2>Multiple Choice Quizzes</h2>
+                <div class="quiz-selector">
+                    <select id="quizSelect">
+                        <option value="">Select a quiz...</option>
+                    </select>
+                </div>
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <button id="nextQuestion" class="btn btn-primary" style="display: none;">Next Question</button>
+                </div>
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quizProgress"></div>
+                    </div>
+                    <p id="quizCounter">Question 0 of 0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises Section -->
+        <section id="exercises" class="section">
+            <div class="container">
+                <h2>Practice Exercises</h2>
+                <div class="exercise-selector">
+                    <select id="exerciseSelect">
+                        <option value="">Select an exercise...</option>
+                    </select>
+                </div>
+                <div id="exerciseContainer" class="exercise-container">
+                    <div class="exercise-question" id="exerciseQuestion"></div>
+                    <div class="exercise-input">
+                        <textarea id="exerciseAnswer" placeholder="Type your answer here..."></textarea>
+                    </div>
+                    <button id="submitExercise" class="btn btn-primary">Submit Answer</button>
+                    <div class="exercise-feedback" id="exerciseFeedback"></div>
+                    <div class="exercise-solution" id="exerciseSolution"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Content Section -->
+        <section id="create" class="section">
+            <div class="container">
+                <h2>Create Your Own Content</h2>
+                <div class="create-tabs">
+                    <button class="tab-btn active" data-tab="create-flashcard">Flashcard</button>
+                    <button class="tab-btn" data-tab="create-quiz">Quiz Question</button>
+                    <button class="tab-btn" data-tab="create-exercise">Exercise</button>
+                </div>
+
+                <!-- Create Flashcard -->
+                <div id="create-flashcard" class="tab-content active">
+                    <form id="flashcardForm">
+                        <div class="form-group">
+                            <label>Deck Name</label>
+                            <input type="text" id="flashcardDeck" placeholder="e.g., Biology Chapter 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Front (Question/Term)</label>
+                            <textarea id="flashcardFrontInput" placeholder="Enter the term or question" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Back (Answer/Definition)</label>
+                            <textarea id="flashcardBackInput" placeholder="Enter the answer or definition" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Flashcard</button>
+                    </form>
+                </div>
+
+                <!-- Create Quiz -->
+                <div id="create-quiz" class="tab-content">
+                    <form id="quizForm">
+                        <div class="form-group">
+                            <label>Quiz Name</label>
+                            <input type="text" id="quizName" placeholder="e.g., Math Quiz 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Question</label>
+                            <textarea id="quizQuestionInput" placeholder="Enter your question" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Option A</label>
+                            <input type="text" id="quizOptionA" placeholder="First option" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option B</label>
+                            <input type="text" id="quizOptionB" placeholder="Second option" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option C</label>
+                            <input type="text" id="quizOptionC" placeholder="Third option" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Option D</label>
+                            <input type="text" id="quizOptionD" placeholder="Fourth option" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correct Answer</label>
+                            <select id="quizCorrectAnswer" required>
+                                <option value="">Select correct option...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Quiz Question</button>
+                    </form>
+                </div>
+
+                <!-- Create Exercise -->
+                <div id="create-exercise" class="tab-content">
+                    <form id="exerciseForm">
+                        <div class="form-group">
+                            <label>Exercise Set Name</label>
+                            <input type="text" id="exerciseSetName" placeholder="e.g., Algebra Problems" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Problem/Question</label>
+                            <textarea id="exerciseQuestionInput" placeholder="Enter the problem" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Solution/Answer</label>
+                            <textarea id="exerciseSolutionInput" placeholder="Enter the solution or correct answer" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Explanation (Optional)</label>
+                            <textarea id="exerciseExplanation" placeholder="Explain how to solve it"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Exercise</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="section">
+            <div class="container">
+                <h2>Your Progress</h2>
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalFlashcards">0</div>
+                        <div class="stat-label">Flashcards Studied</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalQuizzes">0</div>
+                        <div class="stat-label">Quizzes Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalExercises">0</div>
+                        <div class="stat-label">Exercises Done</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="accuracyRate">0%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                </div>
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <ul id="activityList"></ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
